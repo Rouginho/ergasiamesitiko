@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Επικοινωνία — HomeFind</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo"><i class="fas fa-home"></i> Home<span>Find</span></a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Αρχική</a></li>
+    <li><a href="akinhta.html">Ακίνητα</a></li>
+    <li><a href="epikoinwnia.html" class="active">Επικοινωνία</a></li>
+    <li><a href="kataxwrhsh.html" class="btn-nav">+ Καταχώρηση</a></li>
+  </ul>
+</nav>
+
+<div class="breadcrumb">
+  <a href="index.html">Αρχική</a><span class="sep">/</span><span>Επικοινωνία</span>
+</div>
+
+<!-- Hero μικρό -->
+<div style="background:var(--primary);padding:36px 2rem;text-align:center;color:#fff;">
+  <h1 style="font-size:1.7rem;margin-bottom:8px;">Επικοινωνήστε μαζί μας</h1>
+  <p style="color:rgba(255,255,255,0.75);font-size:0.95rem;">Είμαστε εδώ για κάθε ερώτηση σχετικά με ακίνητα</p>
+</div>
+
+<div class="contact-page" style="margin-top:40px;">
+  <!-- Στοιχεία επικοινωνίας -->
+  <div class="contact-info-box">
+    <h2>Στοιχεία Γραφείου</h2>
+    <p>Επισκεφθείτε μας, καλέστε μας ή στείλτε μας email. Απαντάμε σε λιγότερο από 24 ώρες.</p>
+
+    <div class="contact-item">
+      <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+      <div class="ci-text">
+        <div class="title">Διεύθυνση</div>
+        <div class="val">Πανεπιστημίου 42, Αθήνα 10679</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="ci-icon"><i class="fas fa-phone"></i></div>
+      <div class="ci-text">
+        <div class="title">Τηλέφωνο</div>
+        <div class="val">210 123 4567<br>210 765 4321</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+      <div class="ci-text">
+        <div class="title">Email</div>
+        <div class="val">info@homefind.gr<br>support@homefind.gr</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="ci-icon"><i class="fas fa-clock"></i></div>
+      <div class="ci-text">
+        <div class="title">Ώρες λειτουργίας</div>
+        <div class="val">Δευτ–Παρ: 9:00–18:00<br>Σάββατο: 10:00–14:00</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Φόρμα -->
+  <div class="contact-form-box">
+    <h2>Στείλτε μήνυμα</h2>
+    <p>Συμπληρώστε τη φόρμα και θα επικοινωνήσουμε μαζί σας το συντομότερο δυνατό.</p>
+
+    <form id="contact-form" novalidate>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div class="form-group" id="grp-cn">
+          <label style="font-size:0.83rem;font-weight:600;color:#444;margin-bottom:5px;display:block;">Όνομα <span style="color:var(--secondary);">*</span></label>
+          <input type="text" id="c-name" placeholder="Το όνομά σας" required
+            style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:0.93rem;outline:none;transition:border 0.2s;">
+        </div>
+        <div class="form-group" id="grp-ce">
+          <label style="font-size:0.83rem;font-weight:600;color:#444;margin-bottom:5px;display:block;">Email <span style="color:var(--secondary);">*</span></label>
+          <input type="email" id="c-email" placeholder="email@example.com" required
+            style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:0.93rem;outline:none;transition:border 0.2s;">
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label style="font-size:0.83rem;font-weight:600;color:#444;margin-bottom:5px;display:block;">Τηλέφωνο</label>
+        <input type="tel" id="c-phone" placeholder="π.χ. 6912345678"
+          style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:0.93rem;outline:none;transition:border 0.2s;">
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label style="font-size:0.83rem;font-weight:600;color:#444;margin-bottom:5px;display:block;">Θέμα</label>
+        <select id="c-subject"
+          style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:0.93rem;outline:none;background:#fafafa;">
+          <option value="general">Γενική ερώτηση</option>
+          <option value="property">Ερώτηση για ακίνητο</option>
+          <option value="listing">Καταχώρηση αγγελίας</option>
+          <option value="complaint">Παράπονο</option>
+          <option value="other">Άλλο</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:18px;" id="grp-cm">
+        <label style="font-size:0.83rem;font-weight:600;color:#444;margin-bottom:5px;display:block;">Μήνυμα <span style="color:var(--secondary);">*</span></label>
+        <textarea id="c-msg" rows="5" placeholder="Περιγράψτε το αίτημά σας..." required
+          style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:0.93rem;font-family:inherit;resize:vertical;outline:none;transition:border 0.2s;"></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit" style="font-size:1rem;">
+        <i class="fas fa-paper-plane"></i> Αποστολή Μηνύματος
+      </button>
+    </form>
+
+    <div id="contact-success" style="display:none;text-align:center;padding:30px 0;">
+      <div style="width:56px;height:56px;background:#d1e7dd;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.5rem;color:#0f5132;">
+        <i class="fas fa-check"></i>
+      </div>
+      <h3 style="color:var(--primary);margin-bottom:6px;">Στάλθηκε!</h3>
+      <p style="color:#666;font-size:0.9rem;">Ευχαριστούμε για το μήνυμά σας. Θα επικοινωνήσουμε σύντομα.</p>
+      <button onclick="resetContact()" style="margin-top:14px;padding:8px 20px;background:var(--primary);color:#fff;border:none;border-radius:7px;cursor:pointer;font-size:0.9rem;">
+        Νέο μήνυμα
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="section" style="max-width:900px;">
+  <div class="section-title">
+    <h2>Συχνές Ερωτήσεις</h2>
+    <p>Απαντήσεις στις πιο συνηθισμένες ερωτήσεις</p>
+  </div>
+
+  <div id="faq-list">
+    <div class="faq-item" style="background:#fff;border-radius:10px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;">
+      <button class="faq-q" onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:16px 20px;background:none;border:none;cursor:pointer;font-size:0.95rem;font-weight:600;color:var(--primary);display:flex;justify-content:space-between;align-items:center;">
+        Πώς μπορώ να αναζητήσω ακίνητο;
+        <i class="fas fa-chevron-down" style="font-size:0.8rem;transition:transform 0.3s;"></i>
+      </button>
+      <div class="faq-a" style="display:none;padding:0 20px 16px;font-size:0.9rem;color:#555;line-height:1.7;">
+        Χρησιμοποιήστε τα φίλτρα αναζήτησης στη σελίδα «Ακίνητα». Μπορείτε να φιλτράρετε με βάση τον τύπο (πώληση/ενοικίαση), κατηγορία, τοποθεσία, τιμή και εμβαδόν.
+      </div>
+    </div>
+
+    <div class="faq-item" style="background:#fff;border-radius:10px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;">
+      <button class="faq-q" onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:16px 20px;background:none;border:none;cursor:pointer;font-size:0.95rem;font-weight:600;color:var(--primary);display:flex;justify-content:space-between;align-items:center;">
+        Πώς καταχωρώ αγγελία;
+        <i class="fas fa-chevron-down" style="font-size:0.8rem;transition:transform 0.3s;"></i>
+      </button>
+      <div class="faq-a" style="display:none;padding:0 20px 16px;font-size:0.9rem;color:#555;line-height:1.7;">
+        Κάντε κλικ στο κουμπί «+ Καταχώρηση» στο μενού. Συμπληρώστε τη φόρμα με τα στοιχεία του ακινήτου σας και υποβάλετε. Η αγγελία θα ελεγχθεί και θα δημοσιευτεί εντός 24 ωρών.
+      </div>
+    </div>
+
+    <div class="faq-item" style="background:#fff;border-radius:10px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;">
+      <button class="faq-q" onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:16px 20px;background:none;border:none;cursor:pointer;font-size:0.95rem;font-weight:600;color:var(--primary);display:flex;justify-content:space-between;align-items:center;">
+        Η καταχώρηση αγγελίας είναι δωρεάν;
+        <i class="fas fa-chevron-down" style="font-size:0.8rem;transition:transform 0.3s;"></i>
+      </button>
+      <div class="faq-a" style="display:none;padding:0 20px 16px;font-size:0.9rem;color:#555;line-height:1.7;">
+        Ναι, η βασική καταχώρηση αγγελίας είναι εντελώς δωρεάν. Μπορείτε να δημοσιεύσετε το ακίνητό σας χωρίς καμία χρέωση.
+      </div>
+    </div>
+
+    <div class="faq-item" style="background:#fff;border-radius:10px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;">
+      <button class="faq-q" onclick="toggleFaq(this)" style="width:100%;text-align:left;padding:16px 20px;background:none;border:none;cursor:pointer;font-size:0.95rem;font-weight:600;color:var(--primary);display:flex;justify-content:space-between;align-items:center;">
+        Πώς επικοινωνώ με τον ιδιοκτήτη;
+        <i class="fas fa-chevron-down" style="font-size:0.8rem;transition:transform 0.3s;"></i>
+      </button>
+      <div class="faq-a" style="display:none;padding:0 20px 16px;font-size:0.9rem;color:#555;line-height:1.7;">
+        Σε κάθε σελίδα ακινήτου υπάρχει φόρμα επικοινωνίας και κουμπί εμφάνισης τηλεφώνου. Μπορείτε να στείλετε μήνυμα ή να καλέσετε απευθείας τον υπεύθυνο μεσίτη.
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-ft"><i class="fas fa-home"></i> Home<span>Find</span></div>
+      <p>Ακίνητα πώλησης και ενοικίασης σε όλη την Ελλάδα.</p>
+    </div>
+    <div class="footer-col"><h4>Σύνδεσμοι</h4>
+      <a href="index.html">Αρχική</a><a href="akinhta.html">Ακίνητα</a>
+      <a href="kataxwrhsh.html">Καταχώρηση</a><a href="epikoinwnia.html">Επικοινωνία</a>
+    </div>
+    <div class="footer-col"><h4>Επικοινωνία</h4>
+      <a href="tel:2101234567"><i class="fas fa-phone" style="margin-right:6px;"></i>210 123 4567</a>
+      <a href="mailto:info@homefind.gr"><i class="fas fa-envelope" style="margin-right:6px;"></i>info@homefind.gr</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 HomeFind — Εργασία Μαθήματος Τεχνολογία Λογισμικού</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const name  = document.getElementById('c-name').value.trim();
+    const email = document.getElementById('c-email').value.trim();
+    const msg   = document.getElementById('c-msg').value.trim();
+
+    let ok = true;
+    if (!name)  { ok = false; document.getElementById('c-name').style.borderColor = '#dc3545'; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { ok = false; document.getElementById('c-email').style.borderColor = '#dc3545'; }
+    if (!msg)   { ok = false; document.getElementById('c-msg').style.borderColor  = '#dc3545'; }
+
+    if (!ok) { showToast('Συμπληρώστε τα υποχρεωτικά πεδία.', 'error'); return; }
+
+    const btn = this.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Αποστολή...';
+
+    await DB.saveContact({
+      name, email,
+      phone:   document.getElementById('c-phone').value,
+      subject: document.getElementById('c-subject').value,
+      message: msg,
+    });
+
+    document.getElementById('contact-form').style.display = 'none';
+    document.getElementById('contact-success').style.display = 'block';
+  });
+
+  function resetContact() {
+    document.getElementById('contact-form').reset();
+    document.getElementById('contact-form').style.display = 'block';
+    document.getElementById('contact-success').style.display = 'none';
+  }
+
+  // Αλλαγή border σε input focus
+  document.querySelectorAll('#contact-form input, #contact-form textarea').forEach(el => {
+    el.addEventListener('focus', () => el.style.borderColor = 'var(--primary)');
+    el.addEventListener('blur', () => el.style.borderColor = 'var(--border)');
+    el.addEventListener('input', () => el.style.borderColor = 'var(--primary)');
+  });
+
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector('i');
+    const isOpen = answer.style.display === 'block';
+    answer.style.display = isOpen ? 'none' : 'block';
+    icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  }
+</script>
+</body>
+</html>

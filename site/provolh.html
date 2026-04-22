@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ακίνητο — HomeFind</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo"><i class="fas fa-home"></i> Home<span>Find</span></a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Αρχική</a></li>
+    <li><a href="akinhta.html">Ακίνητα</a></li>
+    <li><a href="epikoinwnia.html">Επικοινωνία</a></li>
+    <li><a href="kataxwrhsh.html" class="btn-nav">+ Καταχώρηση</a></li>
+  </ul>
+</nav>
+
+<div class="breadcrumb" id="breadcrumb">
+  <a href="index.html">Αρχική</a>
+  <span class="sep">/</span>
+  <a href="akinhta.html">Ακίνητα</a>
+  <span class="sep">/</span>
+  <span id="bc-title">...</span>
+</div>
+
+<div class="detail-page" id="detail-page" style="display:none;">
+  <!-- Main -->
+  <div class="detail-main">
+    <!-- Gallery -->
+    <div class="detail-gallery">
+      <div class="gallery-main">
+        <img id="main-img" src="" alt="Φωτογραφία ακινήτου">
+      </div>
+      <div class="gallery-thumbs" id="thumbs"></div>
+    </div>
+
+    <!-- Info -->
+    <div class="detail-info">
+      <div class="detail-header">
+        <div>
+          <div class="detail-price" id="d-price"></div>
+          <span id="d-badge" class="card-badge" style="position:static;display:inline-block;margin-top:6px;"></span>
+        </div>
+        <div class="detail-actions">
+          <button class="btn-action" id="fav-btn" onclick="toggleFavDetail()">
+            <i class="fas fa-heart"></i> Αποθήκευση
+          </button>
+          <button class="btn-action" onclick="window.print()">
+            <i class="fas fa-print"></i> Εκτύπωση
+          </button>
+          <button class="btn-action" onclick="shareProperty()">
+            <i class="fas fa-share-alt"></i> Κοινοποίηση
+          </button>
+        </div>
+      </div>
+
+      <h1 class="detail-title" id="d-title"></h1>
+      <div class="detail-location"><i class="fas fa-map-marker-alt"></i> <span id="d-location"></span></div>
+
+      <div class="detail-features-grid" id="d-features"></div>
+
+      <div class="detail-desc">
+        <h3>Περιγραφή</h3>
+        <p id="d-desc"></p>
+      </div>
+
+      <div id="d-amenities-wrap" style="margin-top:16px;">
+        <h3 style="font-size:1rem;color:var(--primary);margin-bottom:10px;">Παροχές</h3>
+        <div class="detail-tags" id="d-amenities"></div>
+      </div>
+    </div>
+
+    <!-- Map placeholder -->
+    <div class="detail-info" style="padding:18px 24px;">
+      <h3 style="font-size:1rem;color:var(--primary);margin-bottom:4px;"><i class="fas fa-map-marker-alt"></i> Τοποθεσία</h3>
+      <div class="map-box">
+        <i class="fas fa-map-marked-alt"></i>
+        <span id="map-addr"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar επικοινωνία -->
+  <div>
+    <div class="contact-card">
+      <div class="agent-info">
+        <div class="agent-avatar" id="agent-avatar"></div>
+        <div>
+          <div class="agent-name" id="agent-name"></div>
+          <div class="agent-role">Μεσίτης</div>
+        </div>
+      </div>
+
+      <button class="tel-btn" id="tel-btn">
+        <i class="fas fa-phone"></i> <span id="tel-num">Εμφάνιση τηλεφώνου</span>
+      </button>
+
+      <p style="font-size:0.82rem;color:#888;text-align:center;margin-bottom:14px;">ή στείλτε μήνυμα:</p>
+
+      <form class="contact-form" onsubmit="sendMsg(event)">
+        <input type="text" id="msg-name" placeholder="Ονοματεπώνυμο" required>
+        <input type="email" id="msg-email" placeholder="Email" required>
+        <input type="tel" id="msg-phone" placeholder="Τηλέφωνο">
+        <textarea id="msg-text" rows="4" placeholder="Ενδιαφέρομαι για αυτό το ακίνητο..."></textarea>
+        <button type="submit" class="btn-submit">
+          <i class="fas fa-paper-plane"></i> Αποστολή Μηνύματος
+        </button>
+      </form>
+    </div>
+
+    <!-- Quick info card -->
+    <div style="background:#fff;border-radius:12px;padding:18px 22px;box-shadow:var(--shadow);margin-top:16px;">
+      <h4 style="font-size:0.9rem;color:var(--primary);margin-bottom:12px;">Στοιχεία Ακινήτου</h4>
+      <table style="width:100%;font-size:0.85rem;border-collapse:collapse;" id="d-quick-info"></table>
+    </div>
+  </div>
+</div>
+
+<!-- Error state -->
+<div id="not-found" style="display:none;text-align:center;padding:80px 20px;">
+  <i class="fas fa-home" style="font-size:3rem;color:#ccc;display:block;margin-bottom:16px;"></i>
+  <h2 style="color:#555;">Το ακίνητο δεν βρέθηκε</h2>
+  <p style="color:#888;margin:8px 0 20px;">Η αγγελία ίσως έχει αφαιρεθεί ή δεν υπάρχει.</p>
+  <a href="akinhta.html" style="display:inline-block;padding:10px 24px;background:var(--primary);color:#fff;border-radius:7px;font-weight:600;">← Πίσω στις αγγελίες</a>
+</div>
+
+<!-- Similar -->
+<div class="section" id="similar-section" style="display:none;">
+  <div class="section-title">
+    <h2>Παρόμοια Ακίνητα</h2>
+  </div>
+  <div class="cards-grid" id="similar-grid"></div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-ft"><i class="fas fa-home"></i> Home<span>Find</span></div>
+      <p>Ακίνητα πώλησης και ενοικίασης σε όλη την Ελλάδα.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Σύνδεσμοι</h4>
+      <a href="index.html">Αρχική</a>
+      <a href="akinhta.html">Ακίνητα</a>
+      <a href="kataxwrhsh.html">Καταχώρηση</a>
+      <a href="epikoinwnia.html">Επικοινωνία</a>
+    </div>
+    <div class="footer-col"><h4>Κατηγορίες</h4>
+      <a href="akinhta.html?cat=apartment">Διαμερίσματα</a>
+      <a href="akinhta.html?cat=house">Μονοκατοικίες</a>
+      <a href="akinhta.html?cat=land">Οικόπεδα</a>
+    </div>
+    <div class="footer-col"><h4>Επικοινωνία</h4>
+      <a href="mailto:info@homefind.gr"><i class="fas fa-envelope" style="margin-right:6px;"></i>info@homefind.gr</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 HomeFind — Εργασία Μαθήματος Τεχνολογία Λογισμικού</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  (async () => {
+  const id = new URLSearchParams(window.location.search).get('id');
+  const prop = id ? await DB.getProperty(id) : null;
+
+  if (!prop) {
+    document.getElementById('not-found').style.display = 'block';
+  } else {
+    DB.incrementViews(id);
+    const isRent = prop.type === 'rent';
+    document.title = prop.title + ' — HomeFind';
+    document.getElementById('bc-title').textContent = prop.title;
+    document.getElementById('detail-page').style.display = 'grid';
+
+    // Τιμή
+    document.getElementById('d-price').innerHTML =
+      prop.price.toLocaleString('el-GR') + ' €' +
+      (isRent ? '<small>/μήνα</small>' : '');
+
+    // Badge
+    const badge = document.getElementById('d-badge');
+    badge.textContent = isRent ? 'Ενοικίαση' : 'Πώληση';
+    badge.className = 'card-badge ' + (isRent ? 'badge-rent' : 'badge-sale');
+
+    document.getElementById('d-title').textContent = prop.title;
+    document.getElementById('d-location').textContent = `${prop.address}, ${prop.neighborhood}, ${prop.location}`;
+    document.getElementById('d-desc').textContent = prop.description;
+    document.getElementById('map-addr').textContent = `${prop.address}, ${prop.neighborhood}, ${prop.location}`;
+
+    // Gallery
+    const mainImg = document.getElementById('main-img');
+    const fallback = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=70';
+    mainImg.src = prop.images?.[0] || fallback;
+    mainImg.onerror = () => { mainImg.src = fallback; };
+
+    const thumbsEl = document.getElementById('thumbs');
+    if (prop.images && prop.images.length > 1) {
+      prop.images.forEach((src, i) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Φωτογραφία ${i+1}`;
+        img.onerror = () => { img.src = fallback; };
+        if (i === 0) img.classList.add('active');
+        img.addEventListener('click', () => {
+          mainImg.src = src;
+          document.querySelectorAll('.gallery-thumbs img').forEach(t => t.classList.remove('active'));
+          img.classList.add('active');
+        });
+        thumbsEl.appendChild(img);
+      });
+    }
+
+    // Features
+    const feats = [
+      { icon: 'fa-vector-square', val: prop.area + ' τ.μ.', lbl: 'Εμβαδόν' },
+      { icon: 'fa-bed', val: prop.rooms || '—', lbl: 'Υπνοδωμάτια' },
+      { icon: 'fa-bath', val: prop.bathrooms || '—', lbl: 'Μπάνια' },
+      { icon: 'fa-layer-group', val: prop.floor ? `${prop.floor}ος` : '—', lbl: 'Όροφος' },
+    ];
+    document.getElementById('d-features').innerHTML = feats.map(f =>
+      `<div class="feat-item"><i class="fas ${f.icon}"></i><div class="val">${f.val}</div><div class="lbl">${f.lbl}</div></div>`
+    ).join('');
+
+    // Amenities
+    if (prop.amenities && prop.amenities.length) {
+      document.getElementById('d-amenities').innerHTML = prop.amenities.map(a =>
+        `<span class="tag"><i class="fas fa-check" style="font-size:0.7rem;margin-right:4px;color:#28a745;"></i>${a}</span>`
+      ).join('');
+    } else {
+      document.getElementById('d-amenities-wrap').style.display = 'none';
+    }
+
+    // Quick info table
+    const rows = [
+      ['Κατηγορία', DB.getCategoryLabel(prop.category)],
+      ['Έτος κατασκευής', prop.year || '—'],
+      ['Περιοχή', prop.neighborhood + ', ' + prop.location],
+      ['Κωδικός', '#' + prop.id],
+      ['Ημ. δημοσίευσης', prop.date],
+      ['Προβολές', prop.views || 0],
+    ];
+    document.getElementById('d-quick-info').innerHTML = rows.map(([k, v]) =>
+      `<tr><td style="color:#888;padding:5px 0;">${k}</td><td style="font-weight:600;padding:5px 0 5px 10px;">${v}</td></tr>`
+    ).join('');
+
+    // Agent
+    const initials = prop.agent.split(' ').map(w => w[0]).join('').slice(0, 2);
+    document.getElementById('agent-avatar').textContent = initials;
+    document.getElementById('agent-name').textContent = prop.agent;
+
+    // Phone reveal
+    let phoneRevealed = false;
+    document.getElementById('tel-btn').addEventListener('click', function() {
+      if (!phoneRevealed) {
+        document.getElementById('tel-num').textContent = prop.phone;
+        phoneRevealed = true;
+      } else {
+        window.location.href = 'tel:' + prop.phone.replace(/\s/g, '');
+      }
+    });
+
+    // Favorites
+    const favs = JSON.parse(localStorage.getItem('re_favs') || '[]');
+    if (favs.includes(Number(id))) {
+      document.getElementById('fav-btn').classList.add('liked');
+    }
+
+    function toggleFavDetail() {
+      const btn = document.getElementById('fav-btn');
+      toggleFav(Number(id), null);
+      const newFavs = JSON.parse(localStorage.getItem('re_favs') || '[]');
+      btn.classList.toggle('liked', newFavs.includes(Number(id)));
+    }
+
+    // Message
+    function sendMsg(e) {
+      e.preventDefault();
+      const data = {
+        propertyId: id,
+        propertyTitle: prop.title,
+        name: document.getElementById('msg-name').value,
+        email: document.getElementById('msg-email').value,
+        phone: document.getElementById('msg-phone').value,
+        message: document.getElementById('msg-text').value,
+      };
+      DB.saveContact(data);
+      showToast('Το μήνυμά σας στάλθηκε! Θα επικοινωνήσουμε σύντομα.', 'success');
+      e.target.reset();
+    }
+
+    // Share
+    function shareProperty() {
+      if (navigator.share) {
+        navigator.share({ title: prop.title, url: window.location.href });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        showToast('Ο σύνδεσμος αντιγράφηκε!', 'success');
+      }
+    }
+
+    // Similar
+    const allSimilar = await DB.getProperties({ type: prop.type, category: prop.category });
+    const similar = allSimilar.filter(p => p.id !== prop.id).slice(0, 3);
+    if (similar.length) {
+      document.getElementById('similar-section').style.display = 'block';
+      document.getElementById('similar-grid').innerHTML = similar.map(p => buildCard(p)).join('');
+      applyFavStates();
+    }
+  }
+  })();
+</script>
+</body>
+</html>

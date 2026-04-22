@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ':*)",
+      "Bash(vercel --version)",
+      "WebFetch(domain:ergasiamesitiko.vercel.app)"
+    ]
+  }
+}

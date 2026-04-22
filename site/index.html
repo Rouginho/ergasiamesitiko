@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomeFind — Μεσιτικό Γραφείο</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="index.html" class="logo">
+    <i class="fas fa-home"></i> Home<span>Find</span>
+  </a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" class="active">Αρχική</a></li>
+    <li><a href="akinhta.html">Ακίνητα</a></li>
+    <li><a href="epikoinwnia.html">Επικοινωνία</a></li>
+    <li><a href="apaitiseis.html">Απαιτήσεις</a></li>
+    <li><a href="diagrams.html">UML</a></li>
+    <li><a href="kataxwrhsh.html" class="btn-nav">+ Καταχώρηση</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>Βρείτε το <span>ιδανικό</span> σας ακίνητο</h1>
+  <p>Εκατοντάδες αγγελίες πώλησης και ενοικίασης σε όλη την Ελλάδα. Βρείτε αυτό που ψάχνετε εύκολα και γρήγορα.</p>
+
+  <div class="search-box">
+    <div class="field">
+      <label>Τύπος</label>
+      <select id="s-type">
+        <option value="all">Όλα</option>
+        <option value="sale">Πώληση</option>
+        <option value="rent">Ενοικίαση</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Κατηγορία</label>
+      <select id="s-cat">
+        <option value="all">Όλες</option>
+        <option value="apartment">Διαμέρισμα</option>
+        <option value="house">Μονοκατοικία</option>
+        <option value="studio">Studio</option>
+        <option value="land">Οικόπεδο</option>
+        <option value="commercial">Επαγγελματικό</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Περιοχή</label>
+      <select id="s-loc">
+        <option value="all">Παντού</option>
+        <option value="Αθήνα">Αθήνα</option>
+        <option value="Θεσσαλονίκη">Θεσσαλονίκη</option>
+        <option value="Πάτρα">Πάτρα</option>
+        <option value="Ηράκλειο">Ηράκλειο</option>
+        <option value="Λάρισα">Λάρισα</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Μέγιστη τιμή (€)</label>
+      <input type="number" id="s-price" placeholder="π.χ. 200000">
+    </div>
+    <button class="btn-search" onclick="doSearch()">
+      <i class="fas fa-search"></i> Αναζήτηση
+    </button>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="num" id="stat-total">—</span>
+    <span class="lbl">Αγγελίες</span>
+  </div>
+  <div class="stat-item">
+    <span class="num" id="stat-sale">—</span>
+    <span class="lbl">Πωλήσεις</span>
+  </div>
+  <div class="stat-item">
+    <span class="num" id="stat-rent">—</span>
+    <span class="lbl">Ενοικιάσεις</span>
+  </div>
+  <div class="stat-item">
+    <span class="num">5</span>
+    <span class="lbl">Περιοχές</span>
+  </div>
+</div>
+
+<!-- Featured Listings -->
+<div class="section">
+  <div class="section-title">
+    <h2>Προτεινόμενα Ακίνητα</h2>
+    <p>Τα πιο δημοφιλή ακίνητα αυτή την εβδομάδα</p>
+  </div>
+  <div class="cards-grid" id="featured-grid">
+    <!-- Γεμίζει από JS -->
+  </div>
+  <div style="text-align:center;margin-top:28px;">
+    <a href="akinhta.html" style="display:inline-block;padding:11px 32px;background:var(--primary);color:#fff;border-radius:8px;font-weight:600;font-size:0.97rem;transition:background 0.2s;"
+       onmouseover="this.style.background='#122d52'" onmouseout="this.style.background='var(--primary)'">
+      Δείτε όλες τις αγγελίες <i class="fas fa-arrow-right"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Γιατί εμάς -->
+<div style="background:#fff;padding:52px 2rem;margin-top:8px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-title">
+      <h2>Γιατί να επιλέξετε το HomeFind;</h2>
+      <p>Σας βοηθάμε σε κάθε βήμα της αγοράς ή ενοικίασης ακινήτου</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:10px;">
+      <div style="text-align:center;padding:28px 20px;">
+        <div style="width:60px;height:60px;background:var(--light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.5rem;color:var(--primary);">
+          <i class="fas fa-search-location"></i>
+        </div>
+        <h3 style="font-size:1rem;color:var(--primary);margin-bottom:8px;">Έξυπνη Αναζήτηση</h3>
+        <p style="font-size:0.88rem;color:#666;line-height:1.6;">Βρείτε ακριβώς αυτό που ψάχνετε με τους εξελιγμένους φίλτρους αναζήτησής μας.</p>
+      </div>
+      <div style="text-align:center;padding:28px 20px;">
+        <div style="width:60px;height:60px;background:var(--light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.5rem;color:var(--primary);">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 style="font-size:1rem;color:var(--primary);margin-bottom:8px;">Αξιόπιστες Αγγελίες</h3>
+        <p style="font-size:0.88rem;color:#666;line-height:1.6;">Κάθε αγγελία ελέγχεται από τους διαχειριστές μας πριν δημοσιευτεί.</p>
+      </div>
+      <div style="text-align:center;padding:28px 20px;">
+        <div style="width:60px;height:60px;background:var(--light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.5rem;color:var(--primary);">
+          <i class="fas fa-hand-shake"></i>
+        </div>
+        <h3 style="font-size:1rem;color:var(--primary);margin-bottom:8px;">Άμεση Επικοινωνία</h3>
+        <p style="font-size:0.88rem;color:#666;line-height:1.6;">Έρθετε σε επαφή απευθείας με τον ιδιοκτήτη ή τον υπεύθυνο μεσίτη.</p>
+      </div>
+      <div style="text-align:center;padding:28px 20px;">
+        <div style="width:60px;height:60px;background:var(--light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.5rem;color:var(--primary);">
+          <i class="fas fa-tags"></i>
+        </div>
+        <h3 style="font-size:1rem;color:var(--primary);margin-bottom:8px;">Δωρεάν Καταχώρηση</h3>
+        <p style="font-size:0.88rem;color:#666;line-height:1.6;">Καταχωρήστε το ακίνητό σας χωρίς χρέωση και φτάστε σε χιλιάδες ενδιαφερόμενους.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-ft"><i class="fas fa-home"></i> Home<span>Find</span></div>
+      <p>Το HomeFind είναι μια πλατφόρμα αγγελιών ακινήτων που φέρνει κοντά ιδιοκτήτες και ενδιαφερόμενους σε όλη την Ελλάδα.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Αγγελίες</h4>
+      <a href="akinhta.html?type=sale">Πωλήσεις</a>
+      <a href="akinhta.html?type=rent">Ενοικιάσεις</a>
+      <a href="akinhta.html?cat=apartment">Διαμερίσματα</a>
+      <a href="akinhta.html?cat=house">Μονοκατοικίες</a>
+      <a href="akinhta.html?cat=land">Οικόπεδα</a>
+    </div>
+    <div class="footer-col">
+      <h4>Πληροφορίες</h4>
+      <a href="epikoinwnia.html">Επικοινωνία</a>
+      <a href="kataxwrhsh.html">Καταχώρηση</a>
+      <a href="admin.html">Διαχειριστής</a>
+    </div>
+    <div class="footer-col">
+      <h4>Επικοινωνία</h4>
+      <a href="#"><i class="fas fa-map-marker-alt" style="margin-right:6px;"></i> Αθήνα, Ελλάδα</a>
+      <a href="tel:2101234567"><i class="fas fa-phone" style="margin-right:6px;"></i> 210 123 4567</a>
+      <a href="mailto:info@homefind.gr"><i class="fas fa-envelope" style="margin-right:6px;"></i> info@homefind.gr</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 HomeFind — Εργασία Μαθήματος Τεχνολογία Λογισμικού
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  (async () => {
+    const grid = document.getElementById('featured-grid');
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#aaa;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+
+    const [featured, all] = await Promise.all([
+      DB.getProperties({ sort: 'date_desc' }),
+      DB.getProperties(),
+    ]);
+
+    grid.innerHTML = featured.slice(0, 6).map(p => buildCard(p)).join('');
+    applyFavStates();
+
+    document.getElementById('stat-total').textContent = all.length;
+    document.getElementById('stat-sale').textContent  = all.filter(p => p.type === 'sale').length;
+    document.getElementById('stat-rent').textContent  = all.filter(p => p.type === 'rent').length;
+  })();
+
+  function doSearch() {
+    const type  = document.getElementById('s-type').value;
+    const cat   = document.getElementById('s-cat').value;
+    const loc   = document.getElementById('s-loc').value;
+    const price = document.getElementById('s-price').value;
+    const params = new URLSearchParams();
+    if (type  !== 'all') params.set('type', type);
+    if (cat   !== 'all') params.set('cat', cat);
+    if (loc   !== 'all') params.set('loc', loc);
+    if (price) params.set('maxPrice', price);
+    window.location.href = 'akinhta.html?' + params.toString();
+  }
+
+  document.getElementById('s-price').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doSearch();
+  });
+</script>
+</body>
+</html>

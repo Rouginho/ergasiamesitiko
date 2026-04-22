@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ανάλυση Απαιτήσεων — HomeFind</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .req-page { max-width: 960px; margin: 0 auto; padding: 30px 1.5rem 60px; }
+    .req-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.09); padding: 28px 32px; margin-bottom: 22px; }
+    .req-card h2 { font-size: 1.15rem; color: var(--primary); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .req-list { list-style: none; padding: 0; }
+    .req-list li { padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.92rem; color: #333; display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; }
+    .req-list li:last-child { border-bottom: none; }
+    .req-num { background: var(--primary); color: #fff; border-radius: 5px; padding: 2px 8px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; margin-top: 2px; }
+    .req-num.nf { background: #6c757d; }
+    .actor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .actor-box { border: 2px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+    .actor-box i { font-size: 2rem; color: var(--primary); display: block; margin-bottom: 8px; }
+    .actor-box h3 { font-size: 0.95rem; color: var(--primary); margin-bottom: 8px; }
+    .actor-box ul { text-align: left; font-size: 0.83rem; color: #555; }
+    .actor-box ul li { margin-bottom: 4px; padding-left: 12px; position: relative; }
+    .actor-box ul li::before { content: '▸'; position: absolute; left: 0; color: var(--secondary); }
+    .rup-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .rup-phase { border-left: 4px solid var(--primary); padding: 14px 16px; background: var(--light); border-radius: 0 8px 8px 0; }
+    .rup-phase h3 { font-size: 0.92rem; color: var(--primary); margin-bottom: 8px; font-weight: 700; }
+    .rup-phase p { font-size: 0.85rem; color: #555; line-height: 1.6; }
+    .rup-phase ul { font-size: 0.83rem; color: #555; padding-left: 16px; margin-top: 6px; }
+    .rup-phase ul li { margin-bottom: 3px; }
+    .gloss-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .gloss-table th { background: var(--primary); color: #fff; padding: 10px 14px; text-align: left; }
+    .gloss-table td { padding: 9px 14px; border-bottom: 1px solid #eee; color: #333; }
+    .gloss-table tr:nth-child(even) td { background: #f8f9fa; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo"><i class="fas fa-home"></i> Home<span>Find</span></a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Αρχική</a></li>
+    <li><a href="akinhta.html">Ακίνητα</a></li>
+    <li><a href="apaitiseis.html" class="active">Απαιτήσεις</a></li>
+    <li><a href="diagrams.html">UML Διαγράμματα</a></li>
+  </ul>
+</nav>
+
+<div style="background:var(--primary);padding:28px 2rem;text-align:center;color:#fff;">
+  <h1 style="font-size:1.5rem;margin-bottom:6px;"><i class="fas fa-clipboard-list"></i> Ανάλυση Απαιτήσεων</h1>
+  <p style="color:rgba(255,255,255,.75);font-size:.9rem;">Εργασία 5 — Τεχνολογία Λογισμικού — Σύστημα Μεσιτικού Γραφείου «HomeFind»</p>
+</div>
+
+<div class="req-page">
+
+  <!-- Γενική Περιγραφή -->
+  <div class="req-card">
+    <h2><i class="fas fa-info-circle"></i> Γενική Περιγραφή Συστήματος</h2>
+    <p style="font-size:.92rem;color:#444;line-height:1.7;">
+      Το <strong>HomeFind</strong> είναι μια διαδικτυακή εφαρμογή μεσιτικού γραφείου που επιτρέπει την ανακοίνωση και αναζήτηση ακινήτων προς πώληση ή ενοικίαση. Το σύστημα εξυπηρετεί τρεις κατηγορίες χρηστών: τους <em>επισκέπτες</em> που αναζητούν ακίνητο, τους <em>καταχωρητές</em> που θέλουν να δημοσιεύσουν αγγελία, και τον <em>διαχειριστή</em> που εποπτεύει και εγκρίνει τις αγγελίες.
+    </p>
+    <p style="font-size:.92rem;color:#444;line-height:1.7;margin-top:10px;">
+      Οι αγγελίες αποθηκεύονται τοπικά (localStorage) και το σύστημα υλοποιείται αμιγώς με HTML5, CSS3 και JavaScript (vanilla), χωρίς χρήση τρίτων πλατφορμών. Επιτρέπεται πλήρης αναζήτηση, φιλτράρισμα, καταχώρηση αγγελίας (με ροή έγκρισης), και διαχείριση από admin panel.
+    </p>
+  </div>
+
+  <!-- Actors -->
+  <div class="req-card">
+    <h2><i class="fas fa-users"></i> Actors — Χρήστες Συστήματος</h2>
+    <div class="actor-grid">
+      <div class="actor-box">
+        <i class="fas fa-user"></i>
+        <h3>Επισκέπτης</h3>
+        <ul>
+          <li>Αναζητά ακίνητα</li>
+          <li>Φιλτράρει αποτελέσματα</li>
+          <li>Προβάλλει λεπτομέρειες</li>
+          <li>Αποστέλλει μήνυμα</li>
+          <li>Αποθηκεύει αγαπημένα</li>
+        </ul>
+      </div>
+      <div class="actor-box">
+        <i class="fas fa-building"></i>
+        <h3>Καταχωρητής</h3>
+        <ul>
+          <li>Συμπληρώνει φόρμα</li>
+          <li>Υποβάλλει αγγελία</li>
+          <li>Αναμένει έγκριση</li>
+          <li>Παρέχει στοιχεία επικ.</li>
+        </ul>
+      </div>
+      <div class="actor-box">
+        <i class="fas fa-user-shield"></i>
+        <h3>Διαχειριστής</h3>
+        <ul>
+          <li>Συνδέεται με κωδικό</li>
+          <li>Εγκρίνει/Απορρίπτει αγγελίες</li>
+          <li>Διαγράφει ακίνητα</li>
+          <li>Διαβάζει μηνύματα</li>
+          <li>Βλέπει στατιστικά</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Λειτουργικές Απαιτήσεις -->
+  <div class="req-card">
+    <h2><i class="fas fa-check-circle"></i> Λειτουργικές Απαιτήσεις (FA)</h2>
+    <ul class="req-list">
+      <li><span class="req-num">FA-01</span> Το σύστημα εμφανίζει λίστα ακινήτων με φωτογραφία, τίτλο, τιμή, τοποθεσία και βασικά χαρακτηριστικά.</li>
+      <li><span class="req-num">FA-02</span> Ο χρήστης μπορεί να φιλτράρει τα αποτελέσματα βάσει τύπου (πώληση/ενοικίαση), κατηγορίας, περιοχής, τιμής και εμβαδού.</li>
+      <li><span class="req-num">FA-03</span> Ο χρήστης μπορεί να ταξινομήσει τα αποτελέσματα (νεότερα, τιμή, εμβαδόν).</li>
+      <li><span class="req-num">FA-04</span> Το σύστημα εμφανίζει αναλυτική σελίδα κάθε ακινήτου με γκαλερί φωτογραφιών, περιγραφή, χαρακτηριστικά και παροχές.</li>
+      <li><span class="req-num">FA-05</span> Ο χρήστης μπορεί να στείλει μήνυμα ενδιαφέροντος από τη σελίδα ακινήτου.</li>
+      <li><span class="req-num">FA-06</span> Ο χρήστης μπορεί να αποθηκεύει/αφαιρεί ακίνητα από αγαπημένα (τοπική αποθήκευση).</li>
+      <li><span class="req-num">FA-07</span> Ο καταχωρητής μπορεί να υποβάλλει νέα αγγελία μέσω φόρμας με επικύρωση στοιχείων.</li>
+      <li><span class="req-num">FA-08</span> Η νέα αγγελία αποθηκεύεται με κατάσταση «εκκρεμής» έως ότου εγκριθεί από τον διαχειριστή.</li>
+      <li><span class="req-num">FA-09</span> Ο διαχειριστής συνδέεται με username και κωδικό πρόσβασης.</li>
+      <li><span class="req-num">FA-10</span> Ο διαχειριστής μπορεί να εγκρίνει ή να απορρίπτει εκκρεμείς αιτήσεις αγγελιών.</li>
+      <li><span class="req-num">FA-11</span> Ο διαχειριστής μπορεί να διαγράψει οποιοδήποτε δημοσιευμένο ακίνητο.</li>
+      <li><span class="req-num">FA-12</span> Ο διαχειριστής βλέπει πίνακα επικοινωνιών (μηνύματα από χρήστες).</li>
+      <li><span class="req-num">FA-13</span> Ο χρήστης μπορεί να αποστείλει γενικό μήνυμα επικοινωνίας προς το γραφείο.</li>
+      <li><span class="req-num">FA-14</span> Το σύστημα μετράει τις προβολές κάθε ακινήτου.</li>
+      <li><span class="req-num">FA-15</span> Το σύστημα υποστηρίζει σελιδοποίηση αποτελεσμάτων (6 ανά σελίδα).</li>
+    </ul>
+  </div>
+
+  <!-- Μη-Λειτουργικές Απαιτήσεις -->
+  <div class="req-card">
+    <h2><i class="fas fa-cog"></i> Μη-Λειτουργικές Απαιτήσεις (MFA)</h2>
+    <ul class="req-list">
+      <li><span class="req-num nf">MFA-01</span> <strong>Απόδοση:</strong> Η σελίδα αποκρίνεται σε λιγότερο από 1 δευτερόλεπτο για κάθε ενέργεια χρήστη.</li>
+      <li><span class="req-num nf">MFA-02</span> <strong>Φορητότητα:</strong> Η εφαρμογή λειτουργεί σε σύγχρονους browsers (Chrome, Firefox, Edge, Safari) χωρίς εγκατάσταση.</li>
+      <li><span class="req-num nf">MFA-03</span> <strong>Ανταπόκριση:</strong> Η διεπαφή είναι πλήρως responsive (mobile, tablet, desktop).</li>
+      <li><span class="req-num nf">MFA-04</span> <strong>Ασφάλεια:</strong> Η πρόσβαση στο admin panel απαιτεί αυθεντικοποίηση μέσω credentials.</li>
+      <li><span class="req-num nf">MFA-05</span> <strong>Χρηστικότητα:</strong> Η πλοήγηση γίνεται σε λιγότερο από 3 βήματα για οποιαδήποτε βασική λειτουργία.</li>
+      <li><span class="req-num nf">MFA-06</span> <strong>Αξιοπιστία:</strong> Τα δεδομένα παραμένουν αποθηκευμένα ακόμα και μετά από ανανέωση της σελίδας.</li>
+      <li><span class="req-num nf">MFA-07</span> <strong>Επεκτασιμότητα:</strong> Ο κώδικας είναι δομημένος ώστε να επιτρέπει εύκολη προσθήκη νέων λειτουργιών.</li>
+      <li><span class="req-num nf">MFA-08</span> <strong>Συντηρησιμότητα:</strong> Διαχωρισμός λογικής (JS), παρουσίασης (CSS) και δομής (HTML).</li>
+    </ul>
+  </div>
+
+  <!-- RUP Φάσεις -->
+  <div class="req-card">
+    <h2><i class="fas fa-project-diagram"></i> RUP — Φάσεις Ανάπτυξης</h2>
+    <div class="rup-grid">
+      <div class="rup-phase">
+        <h3>📋 Φάση 1: Inception (Εκκίνηση)</h3>
+        <p>Καθορισμός του αντικειμένου, των στόχων και της σκοπιμότητας του έργου.</p>
+        <ul>
+          <li>Ανάλυση αναγκών χρηστών</li>
+          <li>Ορισμός actors & use cases</li>
+          <li>Εκτίμηση κινδύνων</li>
+          <li>Business case</li>
+        </ul>
+      </div>
+      <div class="rup-phase">
+        <h3>🏗️ Φάση 2: Elaboration (Εκλέπτυνση)</h3>
+        <p>Λεπτομερής ανάλυση απαιτήσεων και αρχιτεκτονική σχεδίαση του συστήματος.</p>
+        <ul>
+          <li>Use Case, Class, Sequence Διαγράμματα</li>
+          <li>Αρχιτεκτονικό μοντέλο</li>
+          <li>Ορισμός κλάσεων & σχέσεων</li>
+          <li>Πρωτότυπη αρχιτεκτονική</li>
+        </ul>
+      </div>
+      <div class="rup-phase">
+        <h3>⚙️ Φάση 3: Construction (Κατασκευή)</h3>
+        <p>Ανάπτυξη και δοκιμή του συστήματος, υλοποίηση όλων των λειτουργιών.</p>
+        <ul>
+          <li>Κωδικοποίηση HTML/CSS/JS</li>
+          <li>Υλοποίηση data.js & main.js</li>
+          <li>Activity & State Διαγράμματα</li>
+          <li>Unit & Integration Testing</li>
+        </ul>
+      </div>
+      <div class="rup-phase">
+        <h3>🚀 Φάση 4: Transition (Μετάβαση)</h3>
+        <p>Παράδοση του συστήματος στους τελικούς χρήστες και deployment.</p>
+        <ul>
+          <li>Deployment Διάγραμμα</li>
+          <li>Component Διάγραμμα</li>
+          <li>Τεκμηρίωση χρήστη</li>
+          <li>Διόρθωση σφαλμάτων</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Γλωσσάρι -->
+  <div class="req-card">
+    <h2><i class="fas fa-book"></i> Γλωσσάρι</h2>
+    <table class="gloss-table">
+      <thead><tr><th>Όρος</th><th>Ορισμός</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Ακίνητο</strong></td><td>Κατοικία, οικόπεδο ή επαγγελματικός χώρος που προσφέρεται για πώληση ή ενοικίαση.</td></tr>
+        <tr><td><strong>Αγγελία</strong></td><td>Δημοσίευση πληροφοριών ακινήτου από καταχωρητή προς αναζήτηση από ενδιαφερόμενους.</td></tr>
+        <tr><td><strong>Καταχωρητής</strong></td><td>Ιδιώτης ή επαγγελματίας που υποβάλλει αγγελία ακινήτου.</td></tr>
+        <tr><td><strong>Επισκέπτης</strong></td><td>Χρήστης που αναζητά ακίνητο χωρίς να έχει λογαριασμό στο σύστημα.</td></tr>
+        <tr><td><strong>Διαχειριστής (Admin)</strong></td><td>Εξουσιοδοτημένος χρήστης που εποπτεύει τη λειτουργία της πλατφόρμας.</td></tr>
+        <tr><td><strong>localStorage</strong></td><td>Μηχανισμός αποθήκευσης δεδομένων στον browser του χρήστη χωρίς server.</td></tr>
+        <tr><td><strong>Φίλτρο</strong></td><td>Κριτήριο αναζήτησης που περιορίζει τα αποτελέσματα (τιμή, περιοχή κ.λπ.).</td></tr>
+        <tr><td><strong>Status</strong></td><td>Κατάσταση αγγελίας: pending (εκκρεμής), active (ενεργή), rejected (απορριφθείσα).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Navigation -->
+  <div style="text-align:center;margin-top:10px;">
+    <a href="diagrams.html" style="display:inline-block;padding:11px 28px;background:var(--primary);color:#fff;border-radius:8px;font-weight:600;font-size:.95rem;">
+      <i class="fas fa-project-diagram"></i> Προχωρήστε στα UML Διαγράμματα →
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-ft"><i class="fas fa-home"></i> Home<span>Find</span></div>
+      <p>Εργασία 5 — Τεχνολογία Λογισμικού</p>
+    </div>
+    <div class="footer-col"><h4>Σύνδεσμοι</h4>
+      <a href="index.html">Αρχική</a><a href="apaitiseis.html">Απαιτήσεις</a>
+      <a href="diagrams.html">UML Διαγράμματα</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 HomeFind — Εργασία Μαθήματος Τεχνολογία Λογισμικού</div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
