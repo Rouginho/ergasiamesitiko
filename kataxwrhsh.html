@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Καταχώρηση Ακινήτου — HomeFind</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo"><i class="fas fa-home"></i> Home<span>Find</span></a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Αρχική</a></li>
+    <li><a href="akinhta.html">Ακίνητα</a></li>
+    <li><a href="epikoinwnia.html">Επικοινωνία</a></li>
+    <li><a href="kataxwrhsh.html" class="btn-nav active">+ Καταχώρηση</a></li>
+  </ul>
+</nav>
+
+<div class="breadcrumb">
+  <a href="index.html">Αρχική</a>
+  <span class="sep">/</span>
+  <span>Καταχώρηση Ακινήτου</span>
+</div>
+
+<div class="form-page">
+  <!-- Info banner -->
+  <div style="background:#e8f4fd;border:1px solid #b8daff;border-radius:10px;padding:14px 18px;margin-bottom:24px;display:flex;align-items:flex-start;gap:12px;">
+    <i class="fas fa-info-circle" style="color:#0066cc;margin-top:2px;font-size:1.1rem;"></i>
+    <div style="font-size:0.88rem;color:#004085;line-height:1.6;">
+      <strong>Πώς λειτουργεί:</strong> Συμπληρώστε τη φόρμα με τα στοιχεία του ακινήτου σας.
+      Η αγγελία θα σταλεί για έλεγχο και θα δημοσιευτεί εντός 24 ωρών μετά την έγκριση από τον διαχειριστή.
+    </div>
+  </div>
+
+  <div class="form-card">
+    <h2><i class="fas fa-plus-circle" style="color:var(--secondary);margin-right:8px;"></i>Νέα Αγγελία Ακινήτου</h2>
+    <p class="subtitle">Συμπληρώστε τα στοιχεία του ακινήτου σας. Τα πεδία με <span style="color:var(--secondary);">*</span> είναι υποχρεωτικά.</p>
+
+    <form id="listing-form" novalidate>
+
+      <!-- Τύπος & Κατηγορία -->
+      <div class="form-section">
+        <h4><i class="fas fa-tag"></i> Τύπος Αγγελίας</h4>
+        <div class="form-row">
+          <div class="form-group" id="grp-type">
+            <label>Τύπος <span class="req">*</span></label>
+            <select id="f-type" required>
+              <option value="">— Επιλέξτε —</option>
+              <option value="sale">Πώληση</option>
+              <option value="rent">Ενοικίαση</option>
+            </select>
+            <span class="err-msg">Επιλέξτε τύπο αγγελίας.</span>
+          </div>
+          <div class="form-group" id="grp-cat">
+            <label>Κατηγορία <span class="req">*</span></label>
+            <select id="f-cat" required>
+              <option value="">— Επιλέξτε —</option>
+              <option value="apartment">Διαμέρισμα</option>
+              <option value="house">Μονοκατοικία</option>
+              <option value="studio">Studio</option>
+              <option value="land">Οικόπεδο</option>
+              <option value="commercial">Επαγγελματικός χώρος</option>
+            </select>
+            <span class="err-msg">Επιλέξτε κατηγορία.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Τίτλος & Τιμή -->
+      <div class="form-section">
+        <h4><i class="fas fa-file-alt"></i> Βασικές Πληροφορίες</h4>
+        <div class="form-row">
+          <div class="form-group full" id="grp-title">
+            <label>Τίτλος αγγελίας <span class="req">*</span></label>
+            <input type="text" id="f-title" placeholder="π.χ. Διαμέρισμα 75τμ στο κέντρο Αθήνας" required maxlength="100">
+            <span class="err-msg">Εισάγετε τίτλο (τουλάχιστον 10 χαρακτήρες).</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" id="grp-price">
+            <label>Τιμή (€) <span class="req">*</span></label>
+            <input type="number" id="f-price" placeholder="π.χ. 120000" min="1" required>
+            <span class="err-msg">Εισάγετε έγκυρη τιμή.</span>
+          </div>
+          <div class="form-group" id="grp-area">
+            <label>Εμβαδόν (τ.μ.) <span class="req">*</span></label>
+            <input type="number" id="f-area" placeholder="π.χ. 80" min="1" required>
+            <span class="err-msg">Εισάγετε εμβαδόν.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Χαρακτηριστικά -->
+      <div class="form-section" id="chars-section">
+        <h4><i class="fas fa-list-ul"></i> Χαρακτηριστικά</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Υπνοδωμάτια</label>
+            <select id="f-rooms">
+              <option value="0">Studio / —</option>
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Μπάνια</label>
+            <select id="f-baths">
+              <option value="1" selected>1</option>
+              <option value="2">2</option>
+              <option value="3">3+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Όροφος</label>
+            <select id="f-floor">
+              <option value="0">Ισόγειο</option>
+              <option value="1">1ος</option>
+              <option value="2">2ος</option>
+              <option value="3">3ος</option>
+              <option value="4">4ος</option>
+              <option value="5">5ος+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Έτος κατασκευής</label>
+            <input type="number" id="f-year" placeholder="π.χ. 2010" min="1900" max="2025">
+          </div>
+        </div>
+      </div>
+
+      <!-- Τοποθεσία -->
+      <div class="form-section">
+        <h4><i class="fas fa-map-marker-alt"></i> Τοποθεσία</h4>
+        <div class="form-row">
+          <div class="form-group" id="grp-loc">
+            <label>Πόλη <span class="req">*</span></label>
+            <select id="f-loc" required>
+              <option value="">— Επιλέξτε —</option>
+              <option value="Αθήνα">Αθήνα</option>
+              <option value="Θεσσαλονίκη">Θεσσαλονίκη</option>
+              <option value="Πάτρα">Πάτρα</option>
+              <option value="Ηράκλειο">Ηράκλειο</option>
+              <option value="Λάρισα">Λάρισα</option>
+              <option value="Άλλη">Άλλη</option>
+            </select>
+            <span class="err-msg">Επιλέξτε πόλη.</span>
+          </div>
+          <div class="form-group" id="grp-neigh">
+            <label>Γειτονιά / Περιοχή <span class="req">*</span></label>
+            <input type="text" id="f-neighborhood" placeholder="π.χ. Κολωνάκι" required>
+            <span class="err-msg">Εισάγετε γειτονιά.</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Διεύθυνση</label>
+            <input type="text" id="f-address" placeholder="π.χ. Πατησίων 100 (προαιρετικό)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Παροχές -->
+      <div class="form-section">
+        <h4><i class="fas fa-star"></i> Παροχές</h4>
+        <div class="amenities-grid">
+          <label class="amenity-check"><input type="checkbox" value="A/C"> A/C</label>
+          <label class="amenity-check"><input type="checkbox" value="Ανελκυστήρας"> Ανελκυστήρας</label>
+          <label class="amenity-check"><input type="checkbox" value="Πάρκινγκ"> Πάρκινγκ</label>
+          <label class="amenity-check"><input type="checkbox" value="Αποθήκη"> Αποθήκη</label>
+          <label class="amenity-check"><input type="checkbox" value="Φυσικό αέριο"> Φυσικό αέριο</label>
+          <label class="amenity-check"><input type="checkbox" value="Ηλιακός"> Ηλιακός</label>
+          <label class="amenity-check"><input type="checkbox" value="Τζάκι"> Τζάκι</label>
+          <label class="amenity-check"><input type="checkbox" value="Κήπος"> Κήπος</label>
+          <label class="amenity-check"><input type="checkbox" value="Επιπλωμένο"> Επιπλωμένο</label>
+          <label class="amenity-check"><input type="checkbox" value="Βεράντα"> Βεράντα</label>
+          <label class="amenity-check"><input type="checkbox" value="Ασανσέρ"> Ασανσέρ</label>
+          <label class="amenity-check"><input type="checkbox" value="Ασφάλεια"> Συναγερμός</label>
+        </div>
+      </div>
+
+      <!-- Περιγραφή -->
+      <div class="form-section">
+        <h4><i class="fas fa-align-left"></i> Περιγραφή</h4>
+        <div class="form-group full" id="grp-desc">
+          <label>Αναλυτική περιγραφή <span class="req">*</span></label>
+          <textarea id="f-desc" rows="5" placeholder="Περιγράψτε αναλυτικά το ακίνητο: κατάσταση, θέα, πλεονεκτήματα κ.λπ." required minlength="30"></textarea>
+          <span class="err-msg">Η περιγραφή πρέπει να έχει τουλάχιστον 30 χαρακτήρες.</span>
+        </div>
+      </div>
+
+      <!-- URL Φωτογραφίας (απλοποιημένο) -->
+      <div class="form-section">
+        <h4><i class="fas fa-camera"></i> Φωτογραφία</h4>
+        <div class="form-group full">
+          <label>URL Φωτογραφίας (προαιρετικό)</label>
+          <input type="url" id="f-img" placeholder="https://... (σύνδεσμος φωτογραφίας)">
+        </div>
+        <div class="upload-area" onclick="document.getElementById('f-img').focus()">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Εισάγετε σύνδεσμο φωτογραφίας παραπάνω</p>
+          <span>ή αφήστε κενό για προεπιλεγμένη εικόνα</span>
+        </div>
+      </div>
+
+      <!-- Στοιχεία επικοινωνίας -->
+      <div class="form-section">
+        <h4><i class="fas fa-user"></i> Στοιχεία Επικοινωνίας</h4>
+        <div class="form-row">
+          <div class="form-group" id="grp-aname">
+            <label>Ονοματεπώνυμο <span class="req">*</span></label>
+            <input type="text" id="f-agent" placeholder="Ονοματεπώνυμο" required>
+            <span class="err-msg">Εισάγετε ονοματεπώνυμο.</span>
+          </div>
+          <div class="form-group" id="grp-phone">
+            <label>Τηλέφωνο <span class="req">*</span></label>
+            <input type="tel" id="f-phone" placeholder="π.χ. 210 1234567" required>
+            <span class="err-msg">Εισάγετε τηλέφωνο.</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" id="grp-email">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" id="f-email" placeholder="email@example.com" required>
+            <span class="err-msg">Εισάγετε έγκυρο email.</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:16px;">
+        <input type="checkbox" id="f-terms" style="margin-top:3px;accent-color:var(--primary);width:16px;height:16px;flex-shrink:0;">
+        <label for="f-terms" style="font-size:0.87rem;color:#555;cursor:pointer;">
+          Συμφωνώ με τους <a href="#" style="color:var(--primary);">όρους χρήσης</a> της πλατφόρμας και επιβεβαιώνω ότι τα στοιχεία είναι αληθή.
+        </label>
+      </div>
+
+      <button type="submit" class="btn-form-submit">
+        <i class="fas fa-paper-plane"></i> Υποβολή Αγγελίας
+      </button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-ft"><i class="fas fa-home"></i> Home<span>Find</span></div>
+      <p>Ακίνητα πώλησης και ενοικίασης σε όλη την Ελλάδα.</p>
+    </div>
+    <div class="footer-col"><h4>Σύνδεσμοι</h4>
+      <a href="index.html">Αρχική</a>
+      <a href="akinhta.html">Ακίνητα</a>
+      <a href="epikoinwnia.html">Επικοινωνία</a>
+    </div>
+    <div class="footer-col"><h4>Επικοινωνία</h4>
+      <a href="mailto:info@homefind.gr"><i class="fas fa-envelope" style="margin-right:6px;"></i>info@homefind.gr</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 HomeFind — Εργασία Μαθήματος Τεχνολογία Λογισμικού</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.getElementById('listing-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    const btn = this.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Αποστολή...';
+
+    const amenities = Array.from(document.querySelectorAll('.amenity-check input:checked')).map(c => c.value);
+    const imgUrl = document.getElementById('f-img').value.trim();
+
+    const data = {
+      type:         document.getElementById('f-type').value,
+      category:     document.getElementById('f-cat').value,
+      title:        document.getElementById('f-title').value.trim(),
+      price:        Number(document.getElementById('f-price').value),
+      area:         Number(document.getElementById('f-area').value),
+      rooms:        Number(document.getElementById('f-rooms').value),
+      bathrooms:    Number(document.getElementById('f-baths').value),
+      floor:        Number(document.getElementById('f-floor').value),
+      year:         document.getElementById('f-year').value || null,
+      location:     document.getElementById('f-loc').value,
+      neighborhood: document.getElementById('f-neighborhood').value.trim(),
+      address:      document.getElementById('f-address').value.trim(),
+      description:  document.getElementById('f-desc').value.trim(),
+      amenities,
+      images:       imgUrl ? [imgUrl] : [],
+      agent:        document.getElementById('f-agent').value.trim(),
+      phone:        document.getElementById('f-phone').value.trim(),
+      owner_email:  document.getElementById('f-email').value.trim(),
+      views:        0,
+    };
+
+    try {
+      await DB.addRequest(data);
+      showSuccess();
+    } catch (err) {
+      console.error(err);
+      showToast('Σφάλμα κατά την αποστολή. Δοκιμάστε ξανά.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Υποβολή Αγγελίας';
+    }
+  });
+
+  function validateForm() {
+    let ok = true;
+    const checks = [
+      ['f-type', 'grp-type', v => v !== ''],
+      ['f-cat', 'grp-cat', v => v !== ''],
+      ['f-title', 'grp-title', v => v.trim().length >= 10],
+      ['f-price', 'grp-price', v => v > 0],
+      ['f-area', 'grp-area', v => v > 0],
+      ['f-loc', 'grp-loc', v => v !== ''],
+      ['f-neighborhood', 'grp-neigh', v => v.trim() !== ''],
+      ['f-desc', 'grp-desc', v => v.trim().length >= 30],
+      ['f-agent', 'grp-aname', v => v.trim() !== ''],
+      ['f-phone', 'grp-phone', v => v.trim() !== ''],
+      ['f-email', 'grp-email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)],
+    ];
+
+    checks.forEach(([fieldId, grpId, test]) => {
+      const field = document.getElementById(fieldId);
+      const grp = document.getElementById(grpId);
+      const val = field.value;
+      if (!test(val)) {
+        grp.classList.add('has-error');
+        field.classList.add('error');
+        ok = false;
+      } else {
+        grp.classList.remove('has-error');
+        field.classList.remove('error');
+      }
+    });
+
+    if (!document.getElementById('f-terms').checked) {
+      showToast('Πρέπει να αποδεχτείτε τους όρους χρήσης.', 'error');
+      ok = false;
+    }
+
+    return ok;
+  }
+
+  // Καθαρισμός errors σε αλλαγή
+  document.querySelectorAll('#listing-form input, #listing-form select, #listing-form textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      el.classList.remove('error');
+      el.closest('.form-group')?.classList.remove('has-error');
+    });
+  });
+
+  function showSuccess() {
+    document.getElementById('listing-form').style.display = 'none';
+    const card = document.querySelector('.form-card');
+    card.innerHTML = `
+      <div style="text-align:center;padding:40px 20px;">
+        <div style="width:70px;height:70px;background:#d1e7dd;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem;color:#0f5132;">
+          <i class="fas fa-check"></i>
+        </div>
+        <h2 style="color:var(--primary);margin-bottom:8px;">Η αγγελία σας υποβλήθηκε!</h2>
+        <p style="color:#666;font-size:0.93rem;margin-bottom:24px;line-height:1.6;">
+          Ευχαριστούμε για την καταχώρηση. Η αγγελία σας θα ελεγχθεί από τον διαχειριστή
+          και θα δημοσιευτεί εντός 24 ωρών.
+        </p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <a href="akinhta.html" style="padding:10px 22px;background:var(--primary);color:#fff;border-radius:7px;font-weight:600;font-size:0.93rem;">
+            <i class="fas fa-search"></i> Δείτε αγγελίες
+          </a>
+          <a href="kataxwrhsh.html" style="padding:10px 22px;background:transparent;color:var(--primary);border:1.5px solid var(--primary);border-radius:7px;font-weight:600;font-size:0.93rem;">
+            <i class="fas fa-plus"></i> Νέα αγγελία
+          </a>
+        </div>
+      </div>`;
+  }
+</script>
+</body>
+</html>

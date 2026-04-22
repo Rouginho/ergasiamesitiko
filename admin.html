@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — HomeFind</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo"><i class="fas fa-home"></i> Home<span>Find</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">← Αρχική</a></li>
+    <li><a href="#" onclick="logout()" style="color:#ffc947;">Αποσύνδεση</a></li>
+  </ul>
+</nav>
+
+<!-- LOGIN -->
+<div id="login-screen" class="login-wrap">
+  <div class="login-box">
+    <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    <h2>Admin Panel</h2>
+    <p>Εισάγετε τα διαπιστευτήρια διαχειριστή</p>
+    <input type="text" id="l-user" placeholder="Username" autocomplete="username">
+    <input type="password" id="l-pass" placeholder="Password" autocomplete="current-password"
+      onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="btn-login" onclick="doLogin()">
+      <i class="fas fa-sign-in-alt"></i> Σύνδεση
+    </button>
+    <div class="login-error" id="login-err">Λάθος username ή κωδικός.</div>
+    <p style="font-size:0.78rem;color:#aaa;margin-top:16px;">Demo: admin / 1234</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel" style="display:none;">
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <nav class="admin-sidebar">
+      <div class="admin-brand">Admin Panel</div>
+      <a href="#" class="active" onclick="showSection('dashboard', this)">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+      </a>
+      <a href="#" onclick="showSection('requests', this)">
+        <i class="fas fa-inbox"></i> Αιτήσεις
+        <span id="badge-req" style="margin-left:auto;background:#e8420a;color:#fff;border-radius:10px;padding:1px 7px;font-size:0.75rem;"></span>
+      </a>
+      <a href="#" onclick="showSection('properties', this)">
+        <i class="fas fa-building"></i> Ακίνητα
+      </a>
+      <a href="#" onclick="showSection('messages', this)">
+        <i class="fas fa-envelope"></i> Μηνύματα
+        <span id="badge-msg" style="margin-left:auto;background:#e8420a;color:#fff;border-radius:10px;padding:1px 7px;font-size:0.75rem;"></span>
+      </a>
+    </nav>
+
+    <!-- Content -->
+    <div class="admin-content">
+
+      <!-- Dashboard -->
+      <div id="sec-dashboard">
+        <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+        <div class="stats-cards" id="dash-stats"></div>
+
+        <div class="admin-table-wrap">
+          <div class="table-header">
+            <h3>Τελευταίες Αιτήσεις</h3>
+            <a href="#" onclick="showSection('requests', document.querySelector('.admin-sidebar a:nth-child(3)'))"
+              style="font-size:0.85rem;color:var(--primary);">Δείτε όλες →</a>
+          </div>
+          <table class="admin-table">
+            <thead><tr>
+              <th>Ακίνητο</th><th>Τύπος</th><th>Τιμή</th><th>Ημ/νία</th><th>Κατάσταση</th><th>Ενέργεια</th>
+            </tr></thead>
+            <tbody id="dash-req-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Αιτήσεις -->
+      <div id="sec-requests" style="display:none;">
+        <h2><i class="fas fa-inbox"></i> Αιτήσεις Καταχώρησης</h2>
+        <div class="admin-table-wrap">
+          <div class="table-header">
+            <h3>Εκκρεμείς / Όλες</h3>
+            <select id="req-filter" onchange="renderRequests()" style="padding:6px 10px;border:1px solid #ddd;border-radius:6px;font-size:0.88rem;">
+              <option value="all">Όλες</option>
+              <option value="pending">Εκκρεμείς</option>
+              <option value="approved">Εγκεκριμένες</option>
+              <option value="rejected">Απορριφθείσες</option>
+            </select>
+          </div>
+          <table class="admin-table">
+            <thead><tr>
+              <th>Ακίνητο</th><th>Καταχωρητής</th><th>Τύπος</th><th>Τιμή</th><th>Ημ/νία</th><th>Κατάσταση</th><th>Ενέργεια</th>
+            </tr></thead>
+            <tbody id="req-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Ακίνητα -->
+      <div id="sec-properties" style="display:none;">
+        <h2><i class="fas fa-building"></i> Διαχείριση Ακινήτων</h2>
+        <div class="admin-table-wrap">
+          <div class="table-header"><h3>Δημοσιευμένα Ακίνητα</h3></div>
+          <table class="admin-table">
+            <thead><tr>
+              <th>Τίτλος</th><th>Τύπος</th><th>Τιμή</th><th>Περιοχή</th><th>Προβολές</th><th>Ενέργεια</th>
+            </tr></thead>
+            <tbody id="props-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Μηνύματα -->
+      <div id="sec-messages" style="display:none;">
+        <h2><i class="fas fa-envelope"></i> Μηνύματα Επικοινωνίας</h2>
+        <div class="admin-table-wrap">
+          <div class="table-header"><h3>Εισερχόμενα</h3></div>
+          <table class="admin-table">
+            <thead><tr>
+              <th>Όνομα</th><th>Email</th><th>Θέμα / Ακίνητο</th><th>Μήνυμα</th><th>Ημ/νία</th>
+            </tr></thead>
+            <tbody id="msg-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const ADMIN = { user: 'admin', pass: '1234' };
+
+  function doLogin() {
+    const u = document.getElementById('l-user').value;
+    const p = document.getElementById('l-pass').value;
+    if (u === ADMIN.user && p === ADMIN.pass) {
+      sessionStorage.setItem('admin_logged', '1');
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-panel').style.display = 'block';
+      initAdmin();
+    } else {
+      document.getElementById('login-err').style.display = 'block';
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('admin_logged');
+    document.getElementById('admin-panel').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('l-user').value = '';
+    document.getElementById('l-pass').value = '';
+  }
+
+  if (sessionStorage.getItem('admin_logged') === '1') {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    document.addEventListener('DOMContentLoaded', initAdmin);
+  }
+
+  async function initAdmin() {
+    await Promise.all([renderDashboard(), updateBadges()]);
+  }
+
+  function showSection(name, link) {
+    ['dashboard','requests','properties','messages'].forEach(s => {
+      document.getElementById('sec-'+s).style.display = s === name ? 'block' : 'none';
+    });
+    document.querySelectorAll('.admin-sidebar a').forEach(a => a.classList.remove('active'));
+    if (link) link.classList.add('active');
+
+    if (name === 'requests')   renderRequests();
+    if (name === 'properties') renderProperties();
+    if (name === 'messages')   renderMessages();
+  }
+
+  async function updateBadges() {
+    const [reqs, msgs] = await Promise.all([DB.getRequests(), DB.getContacts()]);
+    const br = document.getElementById('badge-req');
+    const bm = document.getElementById('badge-msg');
+    const pending = reqs.filter(r => r.status === 'pending').length;
+    const unread  = msgs.filter(c => !c.read).length;
+    br.textContent = pending > 0 ? pending : '';
+    bm.textContent = unread  > 0 ? unread  : '';
+  }
+
+  async function renderDashboard() {
+    const [props, reqs, msgs] = await Promise.all([
+      DB.getProperties({ adminMode: true }),
+      DB.getRequests(),
+      DB.getContacts(),
+    ]);
+
+    document.getElementById('dash-stats').innerHTML = [
+      { icon: 'fa-building', color: 'blue',   val: props.filter(p => p.status === 'active').length, lbl: 'Ενεργά Ακίνητα' },
+      { icon: 'fa-inbox',    color: 'orange',  val: reqs.filter(r => r.status === 'pending').length, lbl: 'Εκκρεμείς Αιτήσεις' },
+      { icon: 'fa-envelope', color: 'green',   val: msgs.length,                                      lbl: 'Μηνύματα' },
+      { icon: 'fa-eye',      color: 'purple',  val: props.reduce((s, p) => s + (p.views || 0), 0),   lbl: 'Συνολικές Προβολές' },
+    ].map(s => `
+      <div class="stat-card">
+        <div class="icon ${s.color}"><i class="fas ${s.icon}"></i></div>
+        <div class="info"><div class="val">${s.val}</div><div class="lbl">${s.lbl}</div></div>
+      </div>`).join('');
+
+    const last = reqs.slice(0, 3);
+    document.getElementById('dash-req-tbody').innerHTML = last.length
+      ? last.map(r => reqRow(r, true)).join('')
+      : '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px;">Δεν υπάρχουν αιτήσεις</td></tr>';
+  }
+
+  function reqRow(r, compact = false) {
+    const statusMap   = { pending: 'status-pending', approved: 'status-active', rejected: 'status-rejected' };
+    const statusLabel = { pending: 'Εκκρεμής', approved: 'Εγκεκριμένη', rejected: 'Απορρίφθηκε' };
+    const actions = r.status === 'pending'
+      ? `<button class="btn-sm btn-approve" onclick="approveReq(${r.id})">✓ Έγκριση</button>
+         <button class="btn-sm btn-reject"  onclick="rejectReq(${r.id})">✗ Απόρριψη</button>`
+      : `<span style="font-size:0.8rem;color:#aaa;">—</span>`;
+    const ownerCell = compact ? '' : `<td>${r.agent || '—'}</td>`;
+    return `<tr>
+      <td><strong style="font-size:0.88rem;">${r.title}</strong></td>
+      ${ownerCell}
+      <td><span class="card-badge ${r.type==='rent'?'badge-rent':'badge-sale'}" style="position:static;display:inline-block;font-size:0.72rem;">${r.type==='rent'?'Ενοικ.':'Πώληση'}</span></td>
+      <td>${r.price?.toLocaleString('el-GR')} €</td>
+      <td>${r.date}</td>
+      <td><span class="status-badge ${statusMap[r.status]}">${statusLabel[r.status]}</span></td>
+      <td><div class="action-btns">${actions}</div></td>
+    </tr>`;
+  }
+
+  async function renderRequests() {
+    document.getElementById('req-tbody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:#aaa;"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+    const filter = document.getElementById('req-filter').value;
+    let reqs = await DB.getRequests();
+    if (filter !== 'all') reqs = reqs.filter(r => r.status === filter);
+    document.getElementById('req-tbody').innerHTML = reqs.length
+      ? reqs.map(r => reqRow(r)).join('')
+      : '<tr><td colspan="7" style="text-align:center;color:#aaa;padding:20px;">Δεν υπάρχουν αιτήσεις</td></tr>';
+  }
+
+  async function renderProperties() {
+    document.getElementById('props-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:#aaa;"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+    const props = await DB.getProperties({ adminMode: true, sort: 'date_desc' });
+    document.getElementById('props-tbody').innerHTML = props.length
+      ? props.map(p => `<tr>
+          <td><a href="provolh.html?id=${p.id}" target="_blank" style="color:var(--primary);font-size:0.88rem;">${p.title}</a></td>
+          <td><span class="card-badge ${p.type==='rent'?'badge-rent':'badge-sale'}" style="position:static;display:inline-block;font-size:0.72rem;">${p.type==='rent'?'Ενοικίαση':'Πώληση'}</span></td>
+          <td>${p.price?.toLocaleString('el-GR')} €</td>
+          <td>${p.neighborhood}, ${p.location}</td>
+          <td>${p.views || 0}</td>
+          <td><div class="action-btns">
+            <a href="provolh.html?id=${p.id}" target="_blank" class="btn-sm btn-view"><i class="fas fa-eye"></i> Προβολή</a>
+            <button class="btn-sm btn-delete" onclick="deleteProp(${p.id})"><i class="fas fa-trash"></i> Διαγραφή</button>
+          </div></td>
+        </tr>`).join('')
+      : '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px;">Δεν υπάρχουν ακίνητα</td></tr>';
+  }
+
+  async function renderMessages() {
+    document.getElementById('msg-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#aaa;"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+    const msgs = await DB.getContacts();
+    await DB.markContactsRead();
+    updateBadges();
+    document.getElementById('msg-tbody').innerHTML = msgs.length
+      ? msgs.map(m => `<tr>
+          <td><strong style="font-size:0.88rem;">${m.name}</strong></td>
+          <td style="font-size:0.85rem;">${m.email}</td>
+          <td style="font-size:0.85rem;">${m.property_title || m.subject || '—'}</td>
+          <td style="font-size:0.85rem;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.message}</td>
+          <td style="font-size:0.82rem;color:#888;">${m.date}</td>
+        </tr>`).join('')
+      : '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px;">Δεν υπάρχουν μηνύματα</td></tr>';
+  }
+
+  async function approveReq(id) {
+    if (!confirm('Να εγκριθεί η αίτηση και να δημοσιευτεί το ακίνητο;')) return;
+    await DB.approveRequest(id);
+    showToast('Η αίτηση εγκρίθηκε και το ακίνητο δημοσιεύτηκε!', 'success');
+    await Promise.all([renderDashboard(), renderRequests(), updateBadges()]);
+  }
+
+  async function rejectReq(id) {
+    if (!confirm('Να απορριφθεί η αίτηση;')) return;
+    await DB.rejectRequest(id);
+    showToast('Η αίτηση απορρίφθηκε.', 'error');
+    await Promise.all([renderDashboard(), renderRequests(), updateBadges()]);
+  }
+
+  async function deleteProp(id) {
+    if (!confirm('Να διαγραφεί οριστικά αυτό το ακίνητο;')) return;
+    await DB.deleteProperty(id);
+    showToast('Το ακίνητο διαγράφηκε.', 'error');
+    await Promise.all([renderProperties(), renderDashboard()]);
+  }
+
+  if (sessionStorage.getItem('admin_logged') === '1') {
+    initAdmin();
+  }
+</script>
+</body>
+</html>

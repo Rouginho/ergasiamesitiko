@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ακίνητα — HomeFind</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo"><i class="fas fa-home"></i> Home<span>Find</span></a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Αρχική</a></li>
+    <li><a href="akinhta.html" class="active">Ακίνητα</a></li>
+    <li><a href="epikoinwnia.html">Επικοινωνία</a></li>
+    <li><a href="kataxwrhsh.html" class="btn-nav">+ Καταχώρηση</a></li>
+  </ul>
+</nav>
+
+<div class="breadcrumb">
+  <a href="index.html">Αρχική</a>
+  <span class="sep">/</span>
+  <span>Ακίνητα</span>
+</div>
+
+<div class="listings-layout">
+  <!-- Sidebar Φίλτρα -->
+  <aside class="sidebar">
+    <h3><i class="fas fa-sliders-h"></i> Φίλτρα Αναζήτησης</h3>
+
+    <div class="filter-group">
+      <label>Τύπος</label>
+      <select id="f-type">
+        <option value="all">Όλα</option>
+        <option value="sale">Πώληση</option>
+        <option value="rent">Ενοικίαση</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Κατηγορία</label>
+      <select id="f-cat">
+        <option value="all">Όλες</option>
+        <option value="apartment">Διαμέρισμα</option>
+        <option value="house">Μονοκατοικία</option>
+        <option value="studio">Studio</option>
+        <option value="land">Οικόπεδο</option>
+        <option value="commercial">Επαγγελματικό</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Περιοχή</label>
+      <select id="f-loc">
+        <option value="all">Παντού</option>
+        <option value="Αθήνα">Αθήνα</option>
+        <option value="Θεσσαλονίκη">Θεσσαλονίκη</option>
+        <option value="Πάτρα">Πάτρα</option>
+        <option value="Ηράκλειο">Ηράκλειο</option>
+        <option value="Λάρισα">Λάρισα</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Εύρος Τιμής (€)</label>
+      <div class="price-range">
+        <input type="number" id="f-minprice" placeholder="Από">
+        <span>—</span>
+        <input type="number" id="f-maxprice" placeholder="Έως">
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label>Ελάχιστα τ.μ.</label>
+      <input type="number" id="f-area" placeholder="π.χ. 50">
+    </div>
+
+    <div class="filter-group">
+      <label>Υπνοδωμάτια</label>
+      <select id="f-rooms">
+        <option value="all">Όλα</option>
+        <option value="1">1+</option>
+        <option value="2">2+</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+      </select>
+    </div>
+
+    <button class="btn-filter" onclick="applyFilters()">
+      <i class="fas fa-search"></i> Εφαρμογή Φίλτρων
+    </button>
+    <button class="btn-reset" onclick="resetFilters()">
+      <i class="fas fa-times"></i> Καθαρισμός
+    </button>
+  </aside>
+
+  <!-- Αποτελέσματα -->
+  <main>
+    <div class="listings-toolbar">
+      <div class="count">Βρέθηκαν <strong id="results-count">0</strong> αγγελίες</div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <select class="sort-select" id="sort-sel" onchange="applyFilters()">
+          <option value="date_desc">Νεότερες πρώτα</option>
+          <option value="price_asc">Τιμή: Χαμηλή → Υψηλή</option>
+          <option value="price_desc">Τιμή: Υψηλή → Χαμηλή</option>
+          <option value="area_desc">Μεγαλύτερα πρώτα</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active" id="btn-grid" onclick="setView('grid')" title="Grid">
+            <i class="fas fa-th"></i>
+          </button>
+          <button class="view-btn" id="btn-list" onclick="setView('list')" title="Λίστα">
+            <i class="fas fa-list"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="results-container" class="cards-grid"></div>
+
+    <div class="pagination" id="pagination"></div>
+  </main>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-ft"><i class="fas fa-home"></i> Home<span>Find</span></div>
+      <p>Ακίνητα πώλησης και ενοικίασης σε όλη την Ελλάδα.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Σύνδεσμοι</h4>
+      <a href="index.html">Αρχική</a>
+      <a href="akinhta.html">Ακίνητα</a>
+      <a href="kataxwrhsh.html">Καταχώρηση</a>
+      <a href="epikoinwnia.html">Επικοινωνία</a>
+    </div>
+    <div class="footer-col">
+      <h4>Κατηγορίες</h4>
+      <a href="#" onclick="quickFilter('apartment')">Διαμερίσματα</a>
+      <a href="#" onclick="quickFilter('house')">Μονοκατοικίες</a>
+      <a href="#" onclick="quickFilter('studio')">Studio</a>
+      <a href="#" onclick="quickFilter('land')">Οικόπεδα</a>
+    </div>
+    <div class="footer-col">
+      <h4>Επικοινωνία</h4>
+      <a href="epikoinwnia.html"><i class="fas fa-envelope" style="margin-right:6px;"></i> info@homefind.gr</a>
+      <a href="tel:2101234567"><i class="fas fa-phone" style="margin-right:6px;"></i> 210 123 4567</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 HomeFind — Εργασία Μαθήματος Τεχνολογία Λογισμικού</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const PER_PAGE = 6;
+  let currentPage = 1;
+  let currentView = 'grid';
+  let currentResults = [];
+
+  function readUrlParams() {
+    const p = new URLSearchParams(window.location.search);
+    if (p.get('type'))     document.getElementById('f-type').value     = p.get('type');
+    if (p.get('cat'))      document.getElementById('f-cat').value      = p.get('cat');
+    if (p.get('loc'))      document.getElementById('f-loc').value      = p.get('loc');
+    if (p.get('maxPrice')) document.getElementById('f-maxprice').value = p.get('maxPrice');
+  }
+
+  function getFilters() {
+    return {
+      type:     document.getElementById('f-type').value,
+      category: document.getElementById('f-cat').value,
+      location: document.getElementById('f-loc').value,
+      minPrice: document.getElementById('f-minprice').value,
+      maxPrice: document.getElementById('f-maxprice').value,
+      minArea:  document.getElementById('f-area').value,
+      rooms:    document.getElementById('f-rooms').value,
+      sort:     document.getElementById('sort-sel').value,
+    };
+  }
+
+  async function applyFilters() {
+    const cont = document.getElementById('results-container');
+    cont.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#aaa;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+    currentPage = 1;
+    currentResults = await DB.getProperties(getFilters());
+    render();
+  }
+
+  function resetFilters() {
+    ['f-type','f-cat','f-loc','f-rooms','sort-sel'].forEach(id => {
+      document.getElementById(id).value = id === 'sort-sel' ? 'date_desc' : 'all';
+    });
+    ['f-minprice','f-maxprice','f-area'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    applyFilters();
+  }
+
+  function setView(v) {
+    currentView = v;
+    document.getElementById('btn-grid').classList.toggle('active', v === 'grid');
+    document.getElementById('btn-list').classList.toggle('active', v === 'list');
+    document.getElementById('results-container').className = v === 'grid' ? 'cards-grid' : 'cards-list';
+    render();
+  }
+
+  function render() {
+    const cont  = document.getElementById('results-container');
+    const total = currentResults.length;
+    document.getElementById('results-count').textContent = total;
+
+    if (total === 0) {
+      cont.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+        <i class="fas fa-search"></i>
+        <h3>Δεν βρέθηκαν αποτελέσματα</h3>
+        <p>Δοκιμάστε διαφορετικά κριτήρια αναζήτησης.</p>
+      </div>`;
+      document.getElementById('pagination').innerHTML = '';
+      return;
+    }
+
+    const start = (currentPage - 1) * PER_PAGE;
+    cont.innerHTML = currentResults.slice(start, start + PER_PAGE).map(p => buildCard(p, currentView)).join('');
+    applyFavStates();
+    renderPagination(total);
+  }
+
+  function renderPagination(total) {
+    const pages = Math.ceil(total / PER_PAGE);
+    if (pages <= 1) { document.getElementById('pagination').innerHTML = ''; return; }
+    let html = '';
+    if (currentPage > 1) html += `<button class="page-btn" onclick="goPage(${currentPage-1})"><i class="fas fa-chevron-left"></i></button>`;
+    for (let i = 1; i <= pages; i++) {
+      html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
+    }
+    if (currentPage < pages) html += `<button class="page-btn" onclick="goPage(${currentPage+1})"><i class="fas fa-chevron-right"></i></button>`;
+    document.getElementById('pagination').innerHTML = html;
+  }
+
+  function goPage(n) {
+    currentPage = n;
+    render();
+    window.scrollTo({ top: 200, behavior: 'smooth' });
+  }
+
+  function quickFilter(cat) {
+    document.getElementById('f-cat').value = cat;
+    applyFilters();
+    window.scrollTo({ top: 200, behavior: 'smooth' });
+  }
+
+  readUrlParams();
+  applyFilters();
+</script>
+</body>
+</html>
