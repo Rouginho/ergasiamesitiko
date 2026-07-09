@@ -23,14 +23,13 @@
     <div class="lock-icon"><i class="fas fa-lock"></i></div>
     <h2>Admin Panel</h2>
     <p>Εισάγετε τα διαπιστευτήρια διαχειριστή</p>
-    <input type="text" id="l-user" placeholder="Username" autocomplete="username">
+    <input type="email" id="l-user" placeholder="Email" autocomplete="username">
     <input type="password" id="l-pass" placeholder="Password" autocomplete="current-password"
       onkeydown="if(event.key==='Enter') doLogin()">
     <button class="btn-login" onclick="doLogin()">
       <i class="fas fa-sign-in-alt"></i> Σύνδεση
     </button>
-    <div class="login-error" id="login-err">Λάθος username ή κωδικός.</div>
-    <p style="font-size:0.78rem;color:#aaa;margin-top:16px;">Demo: admin / 1234</p>
+    <div class="login-error" id="login-err">Λάθος email ή κωδικός.</div>
   </div>
 </div>
 
@@ -138,33 +137,35 @@
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>
 <script>
-  const ADMIN = { user: 'admin', pass: '1234' };
-
-  function doLogin() {
-    const u = document.getElementById('l-user').value;
-    const p = document.getElementById('l-pass').value;
-    if (u === ADMIN.user && p === ADMIN.pass) {
-      sessionStorage.setItem('admin_logged', '1');
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('admin-panel').style.display = 'block';
-      initAdmin();
-    } else {
-      document.getElementById('login-err').style.display = 'block';
-    }
-  }
-
-  function logout() {
-    sessionStorage.removeItem('admin_logged');
-    document.getElementById('admin-panel').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('l-user').value = '';
-    document.getElementById('l-pass').value = '';
-  }
-
-  if (sessionStorage.getItem('admin_logged') === '1') {
+  function showPanel() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
-    document.addEventListener('DOMContentLoaded', initAdmin);
+  }
+
+  function showLogin() {
+    document.getElementById('admin-panel').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+  }
+
+  async function doLogin() {
+    const email = document.getElementById('l-user').value;
+    const pass  = document.getElementById('l-pass').value;
+    try {
+      await DB.signIn(email, pass);
+    } catch {
+      document.getElementById('login-err').style.display = 'block';
+      return;
+    }
+    document.getElementById('login-err').style.display = 'none';
+    showPanel();
+    await initAdmin();
+  }
+
+  async function logout() {
+    await DB.signOut();
+    showLogin();
+    document.getElementById('l-user').value = '';
+    document.getElementById('l-pass').value = '';
   }
 
   async function initAdmin() {
@@ -301,9 +302,13 @@
     await Promise.all([renderProperties(), renderDashboard()]);
   }
 
-  if (sessionStorage.getItem('admin_logged') === '1') {
-    initAdmin();
-  }
+  // Ο Supabase client επαναφέρει μόνος του το session μετά από refresh.
+  (async () => {
+    if (await DB.isLoggedIn()) {
+      showPanel();
+      await initAdmin();
+    }
+  })();
 </script>
 </body>
 </html>

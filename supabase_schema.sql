@@ -76,11 +76,33 @@ ALTER TABLE properties ENABLE ROW LEVEL SECURITY;
 ALTER TABLE requests    ENABLE ROW LEVEL SECURITY;
 ALTER TABLE contacts    ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "public_all_properties" ON properties FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "public_all_requests"   ON requests    FOR ALL TO anon USING (true) WITH CHECK (true);
-CREATE POLICY "public_all_contacts"   ON contacts    FOR ALL TO anon USING (true) WITH CHECK (true);
+-- Ο επισκέπτης (anon) βλέπει μόνο τα δημοσιευμένα ακίνητα.
+CREATE POLICY "anon_read_active_properties" ON properties
+  FOR SELECT TO anon USING (status = 'active');
+
+-- Ο επισκέπτης μπορεί να υποβάλει αίτηση καταχώρησης, πάντα ως 'pending',
+-- αλλά δεν μπορεί να διαβάσει ή να αλλάξει τις αιτήσεις.
+CREATE POLICY "anon_insert_requests" ON requests
+  FOR INSERT TO anon WITH CHECK (status = 'pending');
+
+-- Ο επισκέπτης μπορεί να στείλει μήνυμα επικοινωνίας, όχι να τα διαβάσει.
+CREATE POLICY "anon_insert_contacts" ON contacts
+  FOR INSERT TO anon WITH CHECK (true);
+
+-- Πλήρη πρόσβαση έχει μόνο ο διαχειριστής. Δεν αρκεί το σκέτο 'authenticated':
+-- αν είναι ανοιχτές οι δημόσιες εγγραφές στο Supabase, οποιοσδήποτε φτιάχνει
+-- λογαριασμό και γίνεται authenticated. Γι' αυτό ελέγχουμε το email του JWT.
+CREATE OR REPLACE FUNCTION is_admin() RETURNS boolean AS $$
+  SELECT auth.jwt() ->> 'email' = 'ADMIN_EMAIL_EDW';
+$$ LANGUAGE SQL STABLE;
+
+CREATE POLICY "admin_all_properties" ON properties FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
+CREATE POLICY "admin_all_requests"   ON requests    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
+CREATE POLICY "admin_all_contacts"   ON contacts    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 -- 3. RPC για atomic increment views
+-- SECURITY DEFINER: τρέχει με τα δικαιώματα του owner, οπότε παρακάμπτει το RLS.
+-- Έτσι ο anon αυξάνει τον μετρητή χωρίς να έχει δικαίωμα UPDATE στον πίνακα.
 
 CREATE OR REPLACE FUNCTION increment_views(property_id BIGINT)
 RETURNS void AS $$

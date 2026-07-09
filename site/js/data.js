@@ -6,6 +6,21 @@ const _db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const DB = {
 
+  // --- Authentication (μόνο για τον διαχειριστή) ---
+  async signIn(email, password) {
+    const { error } = await _db.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+  },
+
+  async signOut() {
+    await _db.auth.signOut();
+  },
+
+  async isLoggedIn() {
+    const { data } = await _db.auth.getSession();
+    return Boolean(data.session);
+  },
+
   async getProperties(filters = {}) {
     let q = _db.from('properties').select('*');
 
@@ -34,14 +49,15 @@ const DB = {
     return data;
   },
 
+  // Χωρίς .select(): ο anon έχει δικαίωμα INSERT αλλά όχι SELECT στις αιτήσεις,
+  // οπότε η επιστροφή της εγγραφής θα απορριπτόταν από το RLS.
   async addRequest(requestData) {
-    const { data, error } = await _db.from('requests').insert([{
+    const { error } = await _db.from('requests').insert([{
       ...requestData,
       status: 'pending',
       date: new Date().toISOString().slice(0, 10),
-    }]).select().single();
+    }]);
     if (error) throw error;
-    return data;
   },
 
   async getRequests() {
